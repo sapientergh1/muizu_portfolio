@@ -1,0 +1,299 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}Home - {{ profile.name|default:"Muizu Iddrisu" }} Portfolio{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="hero-title">Hi, I'm {{ profile.name|default:"Muizu Iddrisu" }}</h1>
+                    <p class="hero-subtitle">{{ profile.title|default:"Teacher • Software Engineer • Student" }}</p>
+                    <p class="hero-description">
+                        {{ profile.bio|default:"Passionate about bridging the gap between education and technology. I create innovative solutions while inspiring the next generation of learners and developers." }}
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'portfolio:projects' %}" class="btn btn-primary-custom me-3">
+                            <i class="fas fa-rocket"></i> View My Work
+                        </a>
+                        <a href="{% url 'portfolio:contact' %}" class="btn btn-outline-custom">
+                            <i class="fas fa-envelope"></i> Get In Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image text-center">
+                    <div class="profile-image-container" style="position: relative; display: inline-block;">
+                        {% if profile.profile_image %}
+                            <img src="{{ profile.profile_image.url }}" 
+                                 alt="{{ profile.name }}" 
+                                 class="img-fluid rounded-circle shadow-lg"
+                                 style="width: 400px; height: 400px; object-fit: cover; border: 5px solid rgba(255,255,255,0.2);">
+                        {% else %}
+                            <img src="{% static 'images/student_placeholder.jpg' %}" 
+                                 alt="{{ profile.name|default:'Muizu Iddrisu' }}" 
+                                 class="img-fluid rounded-circle shadow-lg"
+                                 style="width: 400px; height: 400px; object-fit: cover; border: 5px solid rgba(255,255,255,0.2);">
+                        {% endif %}
+                        <div class="floating-icons">
+                            <div class="floating-icon" style="position: absolute; top: 20%; right: 10%; animation: float 3s ease-in-out infinite;">
+                                <i class="fas fa-chalkboard-teacher" style="font-size: 2rem; color: #f39c12;"></i>
+                            </div>
+                            <div class="floating-icon" style="position: absolute; bottom: 30%; left: 10%; animation: float 3s ease-in-out infinite 1s;">
+                                <i class="fas fa-code" style="font-size: 2rem; color: #e74c3c;"></i>
+                            </div>
+                            <div class="floating-icon" style="position: absolute; top: 60%; right: 20%; animation: float 3s ease-in-out infinite 2s;">
+                                <i class="fas fa-graduation-cap" style="font-size: 2rem; color: #27ae60;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    </div>
+</section>
+
+<!-- About Preview Section -->
+<section class="section" style="background: var(--light-bg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card card-custom h-100 text-center">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img src="{% static 'images/teacher_placeholder.jpg' %}" 
+                                 alt="Teaching" 
+                                 class="img-fluid rounded-circle mb-3"
+                                 style="width: 120px; height: 120px; object-fit: cover;">
+                        </div>
+                        <h4 class="card-title" style="color: var(--primary-color);">
+                            <i class="fas fa-chalkboard-teacher me-2"></i>Educator
+                        </h4>
+                        <p class="card-text">
+                            Passionate about inspiring students and sharing knowledge. 
+                            I believe in making complex concepts accessible and engaging for learners of all levels.
+                        </p>
+                        <a href="{% url 'portfolio:experience' %}" class="btn btn-primary-custom">
+                            Teaching Experience
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4">
+                <div class="card card-custom h-100 text-center">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img src="{% static 'images/software_engineer_placeholder.png' %}" 
+                                 alt="Software Engineering" 
+                                 class="img-fluid rounded-circle mb-3"
+                                 style="width: 120px; height: 120px; object-fit: cover; background: white; padding: 10px;">
+                        </div>
+                        <h4 class="card-title" style="color: var(--primary-color);">
+                            <i class="fas fa-code me-2"></i>Developer
+                        </h4>
+                        <p class="card-text">
+                            Skilled in Django, JavaScript, and React. I build robust web applications 
+                            and love solving complex problems with clean, efficient code.
+                        </p>
+                        <a href="{% url 'portfolio:projects' %}" class="btn btn-primary-custom">
+                            View Projects
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4">
+                <div class="card card-custom h-100 text-center">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img src="{% static 'images/student_placeholder.jpg' %}" 
+                                 alt="Student Life" 
+                                 class="img-fluid rounded-circle mb-3"
+                                 style="width: 120px; height: 120px; object-fit: cover;">
+                        </div>
+                        <h4 class="card-title" style="color: var(--primary-color);">
+                            <i class="fas fa-graduation-cap me-2"></i>Lifelong Learner
+                        </h4>
+                        <p class="card-text">
+                            Always curious and eager to learn new technologies and methodologies. 
+                            I believe continuous learning is key to personal and professional growth.
+                        </p>
+                        <a href="{% url 'portfolio:about' %}" class="btn btn-primary-custom">
+                            My Journey
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+{% if featured_projects %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="row">
+            {% for project in featured_projects %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="card-body">
+                        <div class="project-icon mb-3">
+                            {% if project.type == 'web' %}
+                                <i class="fas fa-globe fa-3x" style="color: var(--secondary-color);"></i>
+                            {% elif project.type == 'mobile' %}
+                                <i class="fas fa-mobile-alt fa-3x" style="color: var(--secondary-color);"></i>
+                            {% elif project.type == 'teaching' %}
+                                <i class="fas fa-chalkboard-teacher fa-3x" style="color: var(--secondary-color);"></i>
+                            {% elif project.type == 'academic' %}
+                                <i class="fas fa-graduation-cap fa-3x" style="color: var(--secondary-color);"></i>
+                            {% else %}
+                                <i class="fas fa-project-diagram fa-3x" style="color: var(--secondary-color);"></i>
+                            {% endif %}
+                        </div>
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description|truncatewords:20 }}</p>
+                        <div class="project-tech mb-3">
+                            {% for tech in project.technologies.all|slice:":3" %}
+                                <span class="badge bg-secondary me-1">{{ tech.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="project-links">
+                            <a href="{% url 'portfolio:project_detail' project.id %}" class="btn btn-primary-custom btn-sm">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                            {% if project.url %}
+                                <a href="{{ project.url }}" target="_blank" class="btn btn-outline-secondary btn-sm ms-2">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-primary-custom">
+                <i class="fas fa-folder-open"></i> View All Projects
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Recent Experience Section -->
+{% if recent_experiences %}
+<section class="section" style="background: var(--light-bg);">
+    <div class="container">
+        <h2 class="section-title">Recent Experience</h2>
+        <div class="row">
+            {% for experience in recent_experiences %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="card-body">
+                        <div class="experience-type mb-2">
+                            {% if experience.type == 'teaching' %}
+                                <span class="badge bg-warning">Teaching</span>
+                            {% elif experience.type == 'software' %}
+                                <span class="badge bg-info">Software Engineering</span>
+                            {% elif experience.type == 'academic' %}
+                                <span class="badge bg-success">Academic</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Other</span>
+                            {% endif %}
+                        </div>
+                        <h5 class="card-title">{{ experience.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ experience.organization }}</h6>
+                        <p class="card-text">{{ experience.description|truncatewords:15 }}</p>
+                        <small class="text-muted">
+                            {{ experience.start_date|date:"M Y" }} - 
+                            {% if experience.is_current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'portfolio:experience' %}" class="btn btn-primary-custom">
+                <i class="fas fa-briefcase"></i> View Full Experience
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action Section -->
+<section class="section" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white;">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="mb-4">Let's Work Together</h2>
+                <p class="lead mb-4">
+                    Whether you need a dedicated teacher, a skilled developer, or someone who can bridge 
+                    both worlds, I'm here to help bring your ideas to life.
+                </p>
+                <div class="cta-buttons">
+                    <a href="{% url 'portfolio:contact' %}" class="btn btn-outline-custom me-3">
+                        <i class="fas fa-envelope"></i> Start a Conversation
+                    </a>
+                    <a href="{% url 'portfolio:projects' %}" class="btn btn-primary-custom">
+                        <i class="fas fa-rocket"></i> See My Work
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .floating-icon {
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    .project-tech .badge {
+        font-size: 0.75rem;
+    }
+    
+    .experience-type {
+        margin-bottom: 1rem;
+    }
+    
+    .cta-buttons .btn {
+        margin: 0.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-buttons .btn {
+            display: block;
+            margin: 0.5rem 0;
+            text-align: center;
+        }
+        
+        .profile-image-container img {
+            width: 300px !important;
+            height: 300px !important;
+        }
+        
+        .floating-icon {
+            display: none;
+        }
+    }
+</style>
+{% endblock %}
+

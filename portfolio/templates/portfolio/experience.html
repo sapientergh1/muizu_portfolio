@@ -1,0 +1,573 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}Experience - Muizu Iddrisu Portfolio{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="hero-section" style="padding: 120px 0 80px;">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h1 class="hero-title">My Experience</h1>
+                <p class="hero-subtitle">A journey through teaching, software development, and continuous learning</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience Timeline -->
+<section class="section">
+    <div class="container">
+        <!-- Teaching Experience -->
+        <div class="experience-category mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="category-header text-center mb-5">
+                        <div class="category-icon mb-3">
+                            <img src="{% static 'images/teacher_placeholder.jpg' %}" 
+                                 alt="Teaching" 
+                                 class="rounded-circle"
+                                 style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <h2 style="color: var(--primary-color);">
+                            <i class="fas fa-chalkboard-teacher me-2"></i>Teaching Experience
+                        </h2>
+                        <p class="lead">Inspiring minds and shaping the future through education</p>
+                    </div>
+                </div>
+            </div>
+            
+            {% if teaching_experiences %}
+                <div class="timeline">
+                    {% for experience in teaching_experiences %}
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card card-custom">
+                                    <div class="card-body">
+                                        <div class="experience-header mb-3">
+                                            <h4 class="card-title" style="color: var(--primary-color);">{{ experience.title }}</h4>
+                                            <h5 class="card-subtitle text-muted">{{ experience.organization }}</h5>
+                                            <div class="experience-duration">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                {{ experience.start_date|date:"M Y" }} - 
+                                                {% if experience.is_current %}
+                                                    <span class="badge bg-success">Present</span>
+                                                {% else %}
+                                                    {{ experience.end_date|date:"M Y" }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <p class="card-text">{{ experience.description }}</p>
+                                        {% if experience.technologies.all %}
+                                            <div class="technologies mt-3">
+                                                <h6>Skills & Technologies:</h6>
+                                                {% for tech in experience.technologies.all %}
+                                                    <span class="badge bg-secondary me-1 mb-1">{{ tech.name }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <!-- Default Teaching Experience -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card card-custom">
+                                    <div class="card-body">
+                                        <div class="experience-header mb-3">
+                                            <h4 class="card-title" style="color: var(--primary-color);">Computer Science Teacher</h4>
+                                            <h5 class="card-subtitle text-muted">Tech High School</h5>
+                                            <div class="experience-duration">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                Sep 2023 - <span class="badge bg-success">Present</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text">
+                                            Teaching computer science fundamentals, programming concepts, and web development 
+                                            to high school students. Developed interactive curriculum that combines theoretical 
+                                            knowledge with hands-on projects, resulting in improved student engagement and 
+                                            academic performance.
+                                        </p>
+                                        <div class="technologies mt-3">
+                                            <h6>Skills & Technologies:</h6>
+                                            <span class="badge bg-secondary me-1 mb-1">Python</span>
+                                            <span class="badge bg-secondary me-1 mb-1">JavaScript</span>
+                                            <span class="badge bg-secondary me-1 mb-1">HTML/CSS</span>
+                                            <span class="badge bg-secondary me-1 mb-1">Curriculum Development</span>
+                                            <span class="badge bg-secondary me-1 mb-1">Student Assessment</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-4">
+                                <div class="card card-custom">
+                                    <div class="card-body">
+                                        <div class="experience-header mb-3">
+                                            <h4 class="card-title" style="color: var(--primary-color);">Programming Tutor</h4>
+                                            <h5 class="card-subtitle text-muted">Community Learning Center</h5>
+                                            <div class="experience-duration">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                Jan 2023 - Aug 2023
+                                            </div>
+                                        </div>
+                                        <p class="card-text">
+                                            Provided one-on-one and group tutoring sessions for students learning programming. 
+                                            Specialized in Python, web development, and problem-solving techniques. 
+                                            Helped over 50 students improve their coding skills and confidence.
+                                        </p>
+                                        <div class="technologies mt-3">
+                                            <h6>Skills & Technologies:</h6>
+                                            <span class="badge bg-secondary me-1 mb-1">Python</span>
+                                            <span class="badge bg-secondary me-1 mb-1">Web Development</span>
+                                            <span class="badge bg-secondary me-1 mb-1">Mentoring</span>
+                                            <span class="badge bg-secondary me-1 mb-1">Problem Solving</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Software Engineering Experience -->
+        <div class="experience-category mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="category-header text-center mb-5">
+                        <div class="category-icon mb-3">
+                            <img src="{% static 'images/software_engineer_placeholder.png' %}" 
+                                 alt="Software Engineering" 
+                                 class="rounded-circle"
+                                 style="width: 100px; height: 100px; object-fit: cover; background: white; padding: 10px;">
+                        </div>
+                        <h2 style="color: var(--primary-color);">
+                            <i class="fas fa-code me-2"></i>Software Engineering Experience
+                        </h2>
+                        <p class="lead">Building robust applications and innovative solutions</p>
+                    </div>
+                </div>
+            </div>
+            
+            {% if software_experiences %}
+                <div class="timeline">
+                    {% for experience in software_experiences %}
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-lg-8 {% cycle '' 'offset-lg-4' %}">
+                                <div class="card card-custom">
+                                    <div class="card-body">
+                                        <div class="experience-header mb-3">
+                                            <h4 class="card-title" style="color: var(--primary-color);">{{ experience.title }}</h4>
+                                            <h5 class="card-subtitle text-muted">{{ experience.organization }}</h5>
+                                            <div class="experience-duration">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                {{ experience.start_date|date:"M Y" }} - 
+                                                {% if experience.is_current %}
+                                                    <span class="badge bg-success">Present</span>
+                                                {% else %}
+                                                    {{ experience.end_date|date:"M Y" }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <p class="card-text">{{ experience.description }}</p>
+                                        {% if experience.technologies.all %}
+                                            <div class="technologies mt-3">
+                                                <h6>Technologies Used:</h6>
+                                                {% for tech in experience.technologies.all %}
+                                                    <span class="badge bg-info me-1 mb-1">{{ tech.name }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <!-- Default Software Engineering Experience -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card card-custom">
+                                    <div class="card-body">
+                                        <div class="experience-header mb-3">
+                                            <h4 class="card-title" style="color: var(--primary-color);">Full Stack Developer</h4>
+                                            <h5 class="card-subtitle text-muted">EdTech Solutions Inc.</h5>
+                                            <div class="experience-duration">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                Jun 2023 - <span class="badge bg-success">Present</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text">
+                                            Developing educational web applications using Django and React. 
+                                            Responsible for both backend API development and frontend user interface design. 
+                                            Collaborated with educators to create intuitive learning management systems 
+                                            that serve over 1000 active users.
+                                        </p>
+                                        <div class="technologies mt-3">
+                                            <h6>Technologies Used:</h6>
+                                            <span class="badge bg-info me-1 mb-1">Django</span>
+                                            <span class="badge bg-info me-1 mb-1">React</span>
+                                            <span class="badge bg-info me-1 mb-1">JavaScript</span>
+                                            <span class="badge bg-info me-1 mb-1">PostgreSQL</span>
+                                            <span class="badge bg-info me-1 mb-1">REST APIs</span>
+                                            <span class="badge bg-info me-1 mb-1">Git</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-4">
+                                <div class="card card-custom">
+                                    <div class="card-body">
+                                        <div class="experience-header mb-3">
+                                            <h4 class="card-title" style="color: var(--primary-color);">Junior Web Developer</h4>
+                                            <h5 class="card-subtitle text-muted">Digital Agency Pro</h5>
+                                            <div class="experience-duration">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                Jan 2023 - May 2023
+                                            </div>
+                                        </div>
+                                        <p class="card-text">
+                                            Built responsive websites and web applications for various clients. 
+                                            Gained experience in modern web development practices, version control, 
+                                            and agile development methodologies. Contributed to 15+ successful project deliveries.
+                                        </p>
+                                        <div class="technologies mt-3">
+                                            <h6>Technologies Used:</h6>
+                                            <span class="badge bg-info me-1 mb-1">HTML5</span>
+                                            <span class="badge bg-info me-1 mb-1">CSS3</span>
+                                            <span class="badge bg-info me-1 mb-1">JavaScript</span>
+                                            <span class="badge bg-info me-1 mb-1">Bootstrap</span>
+                                            <span class="badge bg-info me-1 mb-1">jQuery</span>
+                                            <span class="badge bg-info me-1 mb-1">WordPress</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Academic Experience -->
+        <div class="experience-category mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="category-header text-center mb-5">
+                        <div class="category-icon mb-3">
+                            <img src="{% static 'images/student_placeholder.jpg' %}" 
+                                 alt="Academic" 
+                                 class="rounded-circle"
+                                 style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <h2 style="color: var(--primary-color);">
+                            <i class="fas fa-graduation-cap me-2"></i>Academic Journey
+                        </h2>
+                        <p class="lead">Continuous learning and academic achievements</p>
+                    </div>
+                </div>
+            </div>
+            
+            {% if academic_experiences %}
+                <div class="timeline">
+                    {% for experience in academic_experiences %}
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-lg-8 {% cycle '' 'offset-lg-4' %}">
+                                <div class="card card-custom">
+                                    <div class="card-body">
+                                        <div class="experience-header mb-3">
+                                            <h4 class="card-title" style="color: var(--primary-color);">{{ experience.title }}</h4>
+                                            <h5 class="card-subtitle text-muted">{{ experience.organization }}</h5>
+                                            <div class="experience-duration">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                {{ experience.start_date|date:"M Y" }} - 
+                                                {% if experience.is_current %}
+                                                    <span class="badge bg-success">Present</span>
+                                                {% else %}
+                                                    {{ experience.end_date|date:"M Y" }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <p class="card-text">{{ experience.description }}</p>
+                                        {% if experience.technologies.all %}
+                                            <div class="technologies mt-3">
+                                                <h6>Focus Areas:</h6>
+                                                {% for tech in experience.technologies.all %}
+                                                    <span class="badge bg-success me-1 mb-1">{{ tech.name }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <!-- Default Academic Experience -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card card-custom">
+                                    <div class="card-body">
+                                        <div class="experience-header mb-3">
+                                            <h4 class="card-title" style="color: var(--primary-color);">Master's in Educational Technology</h4>
+                                            <h5 class="card-subtitle text-muted">University of Innovation</h5>
+                                            <div class="experience-duration">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                Sep 2024 - <span class="badge bg-success">Present</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text">
+                                            Currently pursuing advanced studies in educational technology, focusing on 
+                                            the integration of AI and machine learning in educational platforms. 
+                                            Research interests include personalized learning systems and adaptive assessment tools.
+                                        </p>
+                                        <div class="technologies mt-3">
+                                            <h6>Focus Areas:</h6>
+                                            <span class="badge bg-success me-1 mb-1">Educational Technology</span>
+                                            <span class="badge bg-success me-1 mb-1">AI in Education</span>
+                                            <span class="badge bg-success me-1 mb-1">Learning Analytics</span>
+                                            <span class="badge bg-success me-1 mb-1">Research Methods</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-4">
+                                <div class="card card-custom">
+                                    <div class="card-body">
+                                        <div class="experience-header mb-3">
+                                            <h4 class="card-title" style="color: var(--primary-color);">Research Assistant</h4>
+                                            <h5 class="card-subtitle text-muted">Computer Science Department</h5>
+                                            <div class="experience-duration">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                Jan 2022 - Dec 2022
+                                            </div>
+                                        </div>
+                                        <p class="card-text">
+                                            Assisted in research projects related to web accessibility and user experience design. 
+                                            Contributed to publications on inclusive design principles and conducted user testing 
+                                            sessions for educational web applications.
+                                        </p>
+                                        <div class="technologies mt-3">
+                                            <h6>Focus Areas:</h6>
+                                            <span class="badge bg-success me-1 mb-1">Web Accessibility</span>
+                                            <span class="badge bg-success me-1 mb-1">UX Research</span>
+                                            <span class="badge bg-success me-1 mb-1">User Testing</span>
+                                            <span class="badge bg-success me-1 mb-1">Academic Writing</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Skills Summary -->
+<section class="section" style="background: var(--light-bg);">
+    <div class="container">
+        <h2 class="section-title">Key Competencies</h2>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card card-custom h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-chalkboard-teacher fa-3x mb-3" style="color: var(--secondary-color);"></i>
+                        <h5 class="card-title">Teaching & Mentoring</h5>
+                        <ul class="list-unstyled">
+                            <li>Curriculum Development</li>
+                            <li>Student Engagement</li>
+                            <li>Educational Technology</li>
+                            <li>Assessment Design</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card card-custom h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-code fa-3x mb-3" style="color: var(--secondary-color);"></i>
+                        <h5 class="card-title">Software Development</h5>
+                        <ul class="list-unstyled">
+                            <li>Django & Python</li>
+                            <li>React & JavaScript</li>
+                            <li>Database Design</li>
+                            <li>API Development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card card-custom h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-graduation-cap fa-3x mb-3" style="color: var(--secondary-color);"></i>
+                        <h5 class="card-title">Research & Learning</h5>
+                        <ul class="list-unstyled">
+                            <li>Academic Research</li>
+                            <li>Data Analysis</li>
+                            <li>Technical Writing</li>
+                            <li>Continuous Learning</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="section" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white;">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="mb-4">Let's Collaborate</h2>
+                <p class="lead mb-4">
+                    My diverse experience in teaching, software development, and academic research 
+                    allows me to bring unique perspectives to any project. Let's discuss how we can work together.
+                </p>
+                <div class="cta-buttons">
+                    <a href="{% url 'portfolio:projects' %}" class="btn btn-outline-custom me-3">
+                        <i class="fas fa-folder-open"></i> View My Projects
+                    </a>
+                    <a href="{% url 'portfolio:contact' %}" class="btn btn-primary-custom">
+                        <i class="fas fa-envelope"></i> Contact Me
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .timeline {
+        position: relative;
+        padding: 2rem 0;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--secondary-color), var(--accent-color));
+        border-radius: 2px;
+    }
+    
+    .timeline-item {
+        position: relative;
+        margin-bottom: 3rem;
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        top: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 20px;
+        background: var(--secondary-color);
+        border: 4px solid white;
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px var(--secondary-color);
+        z-index: 2;
+    }
+    
+    .category-header {
+        margin-bottom: 3rem;
+    }
+    
+    .category-icon img {
+        border: 4px solid var(--secondary-color);
+    }
+    
+    .experience-header {
+        border-bottom: 2px solid var(--light-bg);
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .experience-duration {
+        color: var(--secondary-color);
+        font-weight: 500;
+        margin-top: 0.5rem;
+    }
+    
+    .technologies h6 {
+        color: var(--primary-color);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .cta-buttons .btn {
+        margin: 0.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .timeline::before {
+            left: 2rem;
+        }
+        
+        .timeline-item::before {
+            left: 2rem;
+        }
+        
+        .timeline-item .col-lg-8 {
+            margin-left: 4rem;
+        }
+        
+        .timeline-item .col-lg-8.offset-lg-4 {
+            margin-left: 4rem;
+        }
+        
+        .category-icon img {
+            width: 80px !important;
+            height: 80px !important;
+        }
+    }
+</style>
+{% endblock %}
+

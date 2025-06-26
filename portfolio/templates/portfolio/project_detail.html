@@ -1,0 +1,429 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} - Muizu Iddrisu Portfolio{% endblock %}
+
+{% block content %}
+<!-- Project Header -->
+<section class="hero-section" style="padding: 120px 0 80px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="project-header text-center">
+                    <div class="project-type mb-3">
+                        {% if project.type == 'web' %}
+                            <span class="badge bg-info fs-6">Web Development</span>
+                        {% elif project.type == 'mobile' %}
+                            <span class="badge bg-purple fs-6" style="background-color: #9b59b6;">Mobile Development</span>
+                        {% elif project.type == 'teaching' %}
+                            <span class="badge bg-warning fs-6">Teaching Project</span>
+                        {% elif project.type == 'academic' %}
+                            <span class="badge bg-success fs-6">Academic Project</span>
+                        {% else %}
+                            <span class="badge bg-secondary fs-6">Other</span>
+                        {% endif %}
+                        {% if project.featured %}
+                            <span class="badge bg-danger fs-6">Featured</span>
+                        {% endif %}
+                    </div>
+                    <h1 class="hero-title">{{ project.title }}</h1>
+                    <p class="hero-subtitle">{{ project.description|truncatewords:30 }}</p>
+                    
+                    <div class="project-links mt-4">
+                        {% if project.url %}
+                            <a href="{{ project.url }}" target="_blank" class="btn btn-primary-custom me-3">
+                                <i class="fas fa-external-link-alt"></i> View Live Project
+                            </a>
+                        {% endif %}
+                        {% if project.github_url %}
+                            <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-custom">
+                                <i class="fab fa-github"></i> View Source Code
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Details -->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <!-- Project Image -->
+            <div class="col-lg-8 mb-5">
+                <div class="project-showcase">
+                    {% if project.image %}
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="img-fluid rounded-3 shadow-lg">
+                    {% else %}
+                        <div class="project-placeholder-large">
+                            {% if project.type == 'web' %}
+                                <i class="fas fa-globe fa-5x" style="color: var(--secondary-color);"></i>
+                            {% elif project.type == 'mobile' %}
+                                <i class="fas fa-mobile-alt fa-5x" style="color: var(--secondary-color);"></i>
+                            {% elif project.type == 'teaching' %}
+                                <i class="fas fa-chalkboard-teacher fa-5x" style="color: var(--secondary-color);"></i>
+                            {% elif project.type == 'academic' %}
+                                <i class="fas fa-graduation-cap fa-5x" style="color: var(--secondary-color);"></i>
+                            {% else %}
+                                <i class="fas fa-project-diagram fa-5x" style="color: var(--secondary-color);"></i>
+                            {% endif %}
+                            <h4 class="mt-3" style="color: var(--secondary-color);">{{ project.title }}</h4>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Project Info -->
+            <div class="col-lg-4">
+                <div class="project-info">
+                    <!-- Project Overview -->
+                    <div class="card card-custom mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-info-circle me-2" style="color: var(--secondary-color);"></i>Project Overview
+                            </h5>
+                            <div class="project-meta">
+                                <div class="meta-item mb-3">
+                                    <strong>Type:</strong>
+                                    <span class="text-muted">
+                                        {% if project.type == 'web' %}Web Development
+                                        {% elif project.type == 'mobile' %}Mobile Development
+                                        {% elif project.type == 'teaching' %}Teaching Project
+                                        {% elif project.type == 'academic' %}Academic Project
+                                        {% else %}Other{% endif %}
+                                    </span>
+                                </div>
+                                <div class="meta-item mb-3">
+                                    <strong>Date:</strong>
+                                    <span class="text-muted">{{ project.created_at|date:"F Y" }}</span>
+                                </div>
+                                {% if project.url %}
+                                    <div class="meta-item mb-3">
+                                        <strong>Status:</strong>
+                                        <span class="badge bg-success">Live</span>
+                                    </div>
+                                {% endif %}
+                                {% if project.github_url %}
+                                    <div class="meta-item mb-3">
+                                        <strong>Source:</strong>
+                                        <a href="{{ project.github_url }}" target="_blank" class="text-decoration-none">
+                                            <i class="fab fa-github me-1"></i>Available on GitHub
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Technologies Used -->
+                    {% if project.technologies.all %}
+                    <div class="card card-custom mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-tools me-2" style="color: var(--secondary-color);"></i>Technologies Used
+                            </h5>
+                            <div class="technologies-list">
+                                {% for tech in project.technologies.all %}
+                                    <span class="badge bg-secondary me-1 mb-2 fs-6">{{ tech.name }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Quick Actions -->
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-rocket me-2" style="color: var(--secondary-color);"></i>Quick Actions
+                            </h5>
+                            <div class="d-grid gap-2">
+                                {% if project.url %}
+                                    <a href="{{ project.url }}" target="_blank" class="btn btn-primary-custom">
+                                        <i class="fas fa-external-link-alt"></i> View Project
+                                    </a>
+                                {% endif %}
+                                {% if project.github_url %}
+                                    <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-secondary">
+                                        <i class="fab fa-github"></i> Source Code
+                                    </a>
+                                {% endif %}
+                                <a href="{% url 'portfolio:contact' %}" class="btn btn-outline-primary">
+                                    <i class="fas fa-envelope"></i> Discuss Similar Project
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Description -->
+<section class="section" style="background: var(--light-bg);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="project-description">
+                    <h2 class="section-title">About This Project</h2>
+                    <div class="description-content">
+                        <p class="lead">{{ project.description }}</p>
+                        
+                        <!-- Default project details based on type -->
+                        {% if project.type == 'web' %}
+                            <h4>Key Features</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check text-success me-2"></i>Responsive design that works on all devices</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Modern user interface with intuitive navigation</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Secure user authentication and authorization</li>
+                                <li><i class="fas fa-check text-success me-2"></i>RESTful API for data management</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Database optimization for performance</li>
+                            </ul>
+                            
+                            <h4>Technical Highlights</h4>
+                            <p>
+                                This web application was built using modern development practices and technologies. 
+                                The backend leverages Django's robust framework for rapid development and security, 
+                                while the frontend utilizes contemporary JavaScript frameworks for a smooth user experience.
+                            </p>
+                        {% elif project.type == 'teaching' %}
+                            <h4>Educational Impact</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check text-success me-2"></i>Engaging curriculum designed for active learning</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Hands-on projects that reinforce concepts</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Assessment tools for tracking progress</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Adaptable content for different skill levels</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Resources for both students and instructors</li>
+                            </ul>
+                            
+                            <h4>Learning Outcomes</h4>
+                            <p>
+                                This educational project was designed to bridge the gap between theoretical knowledge 
+                                and practical application. Students gain hands-on experience while building a solid 
+                                foundation in programming concepts and problem-solving skills.
+                            </p>
+                        {% elif project.type == 'academic' %}
+                            <h4>Research Objectives</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check text-success me-2"></i>Investigate innovative approaches to the problem</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Analyze data using statistical methods</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Develop evidence-based recommendations</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Contribute to the academic knowledge base</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Present findings to the research community</li>
+                            </ul>
+                            
+                            <h4>Methodology</h4>
+                            <p>
+                                This academic project employed rigorous research methodologies to ensure validity 
+                                and reliability of findings. The work contributes valuable insights to the field 
+                                and provides a foundation for future research endeavors.
+                            </p>
+                        {% else %}
+                            <h4>Project Goals</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check text-success me-2"></i>Address specific user needs and requirements</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Implement best practices and modern standards</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Ensure scalability and maintainability</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Optimize for performance and user experience</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Deliver measurable value and impact</li>
+                            </ul>
+                        {% endif %}
+                        
+                        <h4>Challenges & Solutions</h4>
+                        <p>
+                            Every project presents unique challenges that require creative problem-solving. 
+                            This project involved overcoming technical constraints, meeting user requirements, 
+                            and delivering a solution that balances functionality with usability. The experience 
+                            gained from tackling these challenges has contributed to my growth as both a developer and educator.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Projects -->
+{% if related_projects %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Related Projects</h2>
+        <div class="row">
+            {% for related in related_projects %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="project-image">
+                        {% if related.image %}
+                            <img src="{{ related.image.url }}" class="card-img-top" alt="{{ related.title }}">
+                        {% else %}
+                            <div class="project-placeholder">
+                                {% if related.type == 'web' %}
+                                    <i class="fas fa-globe fa-4x" style="color: var(--secondary-color);"></i>
+                                {% elif related.type == 'mobile' %}
+                                    <i class="fas fa-mobile-alt fa-4x" style="color: var(--secondary-color);"></i>
+                                {% elif related.type == 'teaching' %}
+                                    <i class="fas fa-chalkboard-teacher fa-4x" style="color: var(--secondary-color);"></i>
+                                {% elif related.type == 'academic' %}
+                                    <i class="fas fa-graduation-cap fa-4x" style="color: var(--secondary-color);"></i>
+                                {% else %}
+                                    <i class="fas fa-project-diagram fa-4x" style="color: var(--secondary-color);"></i>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <div class="project-type mb-2">
+                            {% if related.type == 'web' %}
+                                <span class="badge bg-info">Web Development</span>
+                            {% elif related.type == 'mobile' %}
+                                <span class="badge" style="background-color: #9b59b6;">Mobile</span>
+                            {% elif related.type == 'teaching' %}
+                                <span class="badge bg-warning">Teaching</span>
+                            {% elif related.type == 'academic' %}
+                                <span class="badge bg-success">Academic</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Other</span>
+                            {% endif %}
+                        </div>
+                        <h5 class="card-title">{{ related.title }}</h5>
+                        <p class="card-text">{{ related.description|truncatewords:15 }}</p>
+                        <a href="{% url 'portfolio:project_detail' related.id %}" class="btn btn-primary-custom">
+                            <i class="fas fa-eye"></i> View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="section" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white;">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="mb-4">Interested in a Similar Project?</h2>
+                <p class="lead mb-4">
+                    I'd love to help you bring your ideas to life. Let's discuss your project requirements 
+                    and explore how we can work together to create something amazing.
+                </p>
+                <div class="cta-buttons">
+                    <a href="{% url 'portfolio:contact' %}" class="btn btn-outline-custom me-3">
+                        <i class="fas fa-envelope"></i> Start a Conversation
+                    </a>
+                    <a href="{% url 'portfolio:projects' %}" class="btn btn-primary-custom">
+                        <i class="fas fa-folder-open"></i> View All Projects
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .project-showcase img {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+    }
+    
+    .project-placeholder-large {
+        height: 400px;
+        background: linear-gradient(135deg, var(--light-bg) 0%, #e9ecef 100%);
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .project-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .project-placeholder {
+        height: 100%;
+        background: linear-gradient(135deg, var(--light-bg) 0%, #e9ecef 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .project-meta .meta-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f8f9fa;
+    }
+    
+    .project-meta .meta-item:last-child {
+        border-bottom: none;
+    }
+    
+    .technologies-list .badge {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .feature-list {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .feature-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f8f9fa;
+    }
+    
+    .feature-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .description-content h4 {
+        color: var(--primary-color);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .description-content h4:first-of-type {
+        margin-top: 1rem;
+    }
+    
+    .cta-buttons .btn {
+        margin: 0.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .project-info {
+            margin-top: 2rem;
+        }
+        
+        .project-placeholder-large {
+            height: 300px;
+        }
+        
+        .project-links .btn {
+            display: block;
+            margin: 0.5rem 0;
+        }
+    }
+</style>
+{% endblock %}
+

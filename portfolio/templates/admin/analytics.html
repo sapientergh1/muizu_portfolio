@@ -1,0 +1,206 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block title %}Analytics Dashboard | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .analytics-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .chart-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        gap: 30px;
+        margin: 30px 0;
+    }
+    
+    .chart-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .chart-card h3 {
+        margin-top: 0;
+        color: #417690;
+        border-bottom: 2px solid #417690;
+        padding-bottom: 10px;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 400px;
+        margin-top: 20px;
+    }
+    
+    .breadcrumbs {
+        background: #f8f9fa;
+        padding: 10px 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+    
+    .breadcrumbs a {
+        color: #417690;
+        text-decoration: none;
+    }
+    
+    .breadcrumbs a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="analytics-container">
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">Home</a> &raquo; Analytics Dashboard
+    </div>
+    
+    <h1>Analytics Dashboard</h1>
+    <p>Comprehensive analytics for your portfolio website performance and content metrics.</p>
+    
+    <div class="chart-grid">
+        <div class="chart-card">
+            <h3>Monthly Project Creation</h3>
+            <div class="chart-container">
+                <canvas id="projectsChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="chart-card">
+            <h3>Contact Form Submissions</h3>
+            <div class="chart-container">
+                <canvas id="contactsChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="chart-grid">
+        <div class="chart-card">
+            <h3>Project vs Contact Trends</h3>
+            <div class="chart-container">
+                <canvas id="trendsChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="chart-card">
+            <h3>Activity Summary</h3>
+            <div style="padding: 20px;">
+                <h4>Key Metrics</h4>
+                <ul>
+                    <li><strong>Most Active Month (Projects):</strong> 
+                        {% for month in monthly_projects %}
+                            {% if forloop.first %}{{ month.month }} ({{ month.count }} projects){% endif %}
+                        {% endfor %}
+                    </li>
+                    <li><strong>Most Active Month (Contacts):</strong> 
+                        {% for month in monthly_contacts %}
+                            {% if forloop.first %}{{ month.month }} ({{ month.count }} contacts){% endif %}
+                        {% endfor %}
+                    </li>
+                    <li><strong>Average Projects per Month:</strong> 
+                        {% widthratio monthly_projects|length 12 1 %}
+                    </li>
+                    <li><strong>Average Contacts per Month:</strong> 
+                        {% widthratio monthly_contacts|length 12 1 %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Prepare data for charts
+const projectsData = {
+    labels: [{% for month in monthly_projects %}'{{ month.month }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+    datasets: [{
+        label: 'Projects Created',
+        data: [{% for month in monthly_projects %}{{ month.count }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        backgroundColor: 'rgba(65, 118, 144, 0.2)',
+        borderColor: 'rgba(65, 118, 144, 1)',
+        borderWidth: 2,
+        fill: true
+    }]
+};
+
+const contactsData = {
+    labels: [{% for month in monthly_contacts %}'{{ month.month }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+    datasets: [{
+        label: 'Contact Submissions',
+        data: [{% for month in monthly_contacts %}{{ month.count }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 2,
+        fill: true
+    }]
+};
+
+const trendsData = {
+    labels: [{% for month in monthly_projects %}'{{ month.month }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+    datasets: [{
+        label: 'Projects',
+        data: [{% for month in monthly_projects %}{{ month.count }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        backgroundColor: 'rgba(65, 118, 144, 0.2)',
+        borderColor: 'rgba(65, 118, 144, 1)',
+        borderWidth: 2,
+        fill: false
+    }, {
+        label: 'Contacts',
+        data: [{% for month in monthly_contacts %}{{ month.count }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 2,
+        fill: false
+    }]
+};
+
+// Chart configuration
+const chartConfig = {
+    type: 'line',
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+            }
+        }
+    }
+};
+
+// Create charts
+new Chart(document.getElementById('projectsChart'), {
+    ...chartConfig,
+    data: projectsData
+});
+
+new Chart(document.getElementById('contactsChart'), {
+    ...chartConfig,
+    data: contactsData
+});
+
+new Chart(document.getElementById('trendsChart'), {
+    ...chartConfig,
+    data: trendsData
+});
+</script>
+{% endblock %}
+

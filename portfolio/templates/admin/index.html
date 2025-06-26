@@ -1,0 +1,253 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static admin_urls %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    .dashboard-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+    
+    .stat-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .stat-number {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #417690;
+        margin: 0;
+    }
+    
+    .stat-label {
+        color: #666;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+    
+    .recent-activity {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+    }
+    
+    .activity-section {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+    }
+    
+    .activity-section h3 {
+        margin-top: 0;
+        color: #417690;
+        border-bottom: 2px solid #417690;
+        padding-bottom: 10px;
+    }
+    
+    .activity-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .activity-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .activity-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .quick-actions {
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+    }
+    
+    .quick-actions h3 {
+        margin-top: 0;
+        color: #417690;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .action-btn {
+        background: #417690;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background 0.2s;
+    }
+    
+    .action-btn:hover {
+        background: #2c5aa0;
+        color: white;
+    }
+    
+    .chart-container {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+    }
+    
+    .progress-bar {
+        background: #f0f0f0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 5px 0;
+    }
+    
+    .progress-fill {
+        background: #417690;
+        height: 20px;
+        transition: width 0.3s ease;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>{{ index_title }}</h1>
+
+<!-- Dashboard Statistics -->
+<div class="dashboard-stats">
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_projects }}</div>
+        <div class="stat-label">Total Projects</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_experiences }}</div>
+        <div class="stat-label">Work Experiences</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_skills }}</div>
+        <div class="stat-label">Skills</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_contacts }}</div>
+        <div class="stat-label">Total Contacts</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.recent_contacts }}</div>
+        <div class="stat-label">Contacts This Week</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.featured_projects }}</div>
+        <div class="stat-label">Featured Projects</div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <div class="action-buttons">
+        <a href="{% url 'admin:portfolio_project_add' %}" class="action-btn">Add New Project</a>
+        <a href="{% url 'admin:portfolio_experience_add' %}" class="action-btn">Add Experience</a>
+        <a href="{% url 'admin:portfolio_skill_add' %}" class="action-btn">Add Skill</a>
+        <a href="{% url 'admin:portfolio_contactmessage_changelist' %}" class="action-btn">View Contacts</a>
+        <a href="{% url 'admin:analytics' %}" class="action-btn">View Analytics</a>
+        <a href="{% url 'admin:reports' %}" class="action-btn">Generate Reports</a>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="recent-activity">
+    <div class="activity-section">
+        <h3>Recent Projects</h3>
+        <ul class="activity-list">
+            {% for project in recent_projects %}
+            <li>
+                <strong>{{ project.title }}</strong><br>
+                <small>{{ project.category }} - {{ project.created_at|date:"M d, Y" }}</small>
+            </li>
+            {% empty %}
+            <li>No recent projects</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div class="activity-section">
+        <h3>Recent Contacts</h3>
+        <ul class="activity-list">
+            {% for contact in recent_contacts %}
+            <li>
+                <strong>{{ contact.name }}</strong> - {{ contact.subject }}<br>
+                <small>{{ contact.created_at|date:"M d, Y H:i" }}</small>
+            </li>
+            {% empty %}
+            <li>No recent contacts</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div class="activity-section">
+        <h3>Recent Experiences</h3>
+        <ul class="activity-list">
+            {% for experience in recent_experiences %}
+            <li>
+                <strong>{{ experience.title }}</strong> at {{ experience.company }}<br>
+                <small>{{ experience.experience_type }} - {{ experience.start_date|date:"M Y" }}</small>
+            </li>
+            {% empty %}
+            <li>No experiences added</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Charts and Analytics -->
+<div class="chart-container">
+    <h3>Project Types</h3>
+    {% for project_type in project_types %}
+    <div style="margin: 10px 0;">
+        <strong>{{ project_type.type|default:"Uncategorized" }}</strong> ({{ project_type.count }})
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {% widthratio project_type.count stats.total_projects 100 %}%"></div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="chart-container">
+    <h3>Top Skills</h3>
+    {% for skill in skill_usage %}
+    <div style="margin: 10px 0;">
+        <strong>{{ skill.name }}</strong> ({{ skill.project_count }} projects)
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {% widthratio skill.project_count stats.total_projects 100 %}%"></div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Default Django Admin Content -->
+<div style="margin-top: 40px;">
+    {{ block.super }}
+</div>
+{% endblock %}
+

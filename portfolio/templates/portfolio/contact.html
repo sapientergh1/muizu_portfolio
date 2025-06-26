@@ -1,0 +1,564 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}Contact - Muizu Iddrisu Portfolio{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="hero-section" style="padding: 120px 0 80px;">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h1 class="hero-title">Get In Touch</h1>
+                <p class="hero-subtitle">Let's discuss how we can work together on your next project</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <!-- Contact Form -->
+            <div class="col-lg-8 mb-5">
+                <div class="card card-custom">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4" style="color: var(--primary-color);">
+                            <i class="fas fa-envelope me-2"></i>Send Me a Message
+                        </h3>
+                        
+                        <form id="contactForm" class="contact-form">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Full Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject *</label>
+                                <select class="form-select" id="subject" name="subject" required>
+                                    <option value="">Choose a subject...</option>
+                                    <option value="Web Development Project">Web Development Project</option>
+                                    <option value="Teaching Opportunity">Teaching Opportunity</option>
+                                    <option value="Collaboration">Collaboration</option>
+                                    <option value="Consultation">Consultation</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea class="form-control" id="message" name="message" rows="6" 
+                                          placeholder="Tell me about your project, goals, timeline, and any specific requirements..." required></textarea>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary-custom btn-lg" id="submitBtn">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <!-- Success/Error Messages -->
+                        <div id="formMessage" class="mt-3" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="col-lg-4">
+                <div class="contact-info">
+                    <!-- Contact Details -->
+                    <div class="card card-custom mb-4">
+                        <div class="card-body text-center">
+                            <div class="contact-icon mb-3">
+                                <i class="fas fa-user fa-3x" style="color: var(--secondary-color);"></i>
+                            </div>
+                            <h5 class="card-title">Muizu Iddrisu</h5>
+                            <p class="card-text text-muted">Teacher • Developer • Student</p>
+                            
+                            <div class="contact-details mt-4">
+                                {% if profile %}
+                                    {% if profile.email %}
+                                        <div class="contact-item mb-3">
+                                            <i class="fas fa-envelope me-2" style="color: var(--secondary-color);"></i>
+                                            <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+                                        </div>
+                                    {% endif %}
+                                    {% if profile.phone %}
+                                        <div class="contact-item mb-3">
+                                            <i class="fas fa-phone me-2" style="color: var(--secondary-color);"></i>
+                                            <a href="tel:{{ profile.phone }}">{{ profile.phone }}</a>
+                                        </div>
+                                    {% endif %}
+                                    {% if profile.location %}
+                                        <div class="contact-item mb-3">
+                                            <i class="fas fa-map-marker-alt me-2" style="color: var(--secondary-color);"></i>
+                                            <span>{{ profile.location }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="contact-item mb-3">
+                                        <i class="fas fa-envelope me-2" style="color: var(--secondary-color);"></i>
+                                        <a href="mailto:muizu.iddrisu@example.com">muizu.iddrisu@example.com</a>
+                                    </div>
+                                    <div class="contact-item mb-3">
+                                        <i class="fas fa-map-marker-alt me-2" style="color: var(--secondary-color);"></i>
+                                        <span>Available Worldwide</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Links -->
+                    <div class="card card-custom mb-4">
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-3">Connect With Me</h5>
+                            <div class="social-links">
+                                <a href="#" class="social-link" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="social-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="social-link" title="Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="social-link" title="Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Availability -->
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-clock me-2" style="color: var(--secondary-color);"></i>Availability
+                            </h5>
+                            <div class="availability-info">
+                                <div class="availability-item mb-2">
+                                    <strong>Response Time:</strong>
+                                    <span class="text-muted">Within 24 hours</span>
+                                </div>
+                                <div class="availability-item mb-2">
+                                    <strong>Project Availability:</strong>
+                                    <span class="badge bg-success">Available</span>
+                                </div>
+                                <div class="availability-item mb-2">
+                                    <strong>Preferred Contact:</strong>
+                                    <span class="text-muted">Email or Form</span>
+                                </div>
+                                <div class="availability-item">
+                                    <strong>Time Zone:</strong>
+                                    <span class="text-muted">GMT+0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Overview -->
+<section class="section" style="background: var(--light-bg);">
+    <div class="container">
+        <h2 class="section-title">How I Can Help</h2>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card card-custom h-100 text-center">
+                    <div class="card-body">
+                        <div class="service-icon mb-3">
+                            <i class="fas fa-code fa-3x" style="color: var(--secondary-color);"></i>
+                        </div>
+                        <h5 class="card-title">Web Development</h5>
+                        <p class="card-text">
+                            Full-stack web applications using Django, React, and modern JavaScript. 
+                            From concept to deployment, I'll bring your ideas to life.
+                        </p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i>Custom Web Applications</li>
+                            <li><i class="fas fa-check text-success me-2"></i>E-learning Platforms</li>
+                            <li><i class="fas fa-check text-success me-2"></i>API Development</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Database Design</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card card-custom h-100 text-center">
+                    <div class="card-body">
+                        <div class="service-icon mb-3">
+                            <i class="fas fa-chalkboard-teacher fa-3x" style="color: var(--secondary-color);"></i>
+                        </div>
+                        <h5 class="card-title">Educational Services</h5>
+                        <p class="card-text">
+                            Teaching, tutoring, and curriculum development services. 
+                            I specialize in making technology education accessible and engaging.
+                        </p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i>Programming Instruction</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Curriculum Development</li>
+                            <li><i class="fas fa-check text-success me-2"></i>One-on-One Tutoring</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Workshop Facilitation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card card-custom h-100 text-center">
+                    <div class="card-body">
+                        <div class="service-icon mb-3">
+                            <i class="fas fa-lightbulb fa-3x" style="color: var(--secondary-color);"></i>
+                        </div>
+                        <h5 class="card-title">Consulting</h5>
+                        <p class="card-text">
+                            Strategic guidance on educational technology integration, 
+                            software architecture, and digital transformation initiatives.
+                        </p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i>EdTech Strategy</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Technology Assessment</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Process Optimization</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Team Training</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                                What types of projects do you work on?
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                I specialize in educational technology projects, web applications, and teaching initiatives. 
+                                This includes e-learning platforms, student management systems, educational games, 
+                                curriculum development, and programming instruction.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                                What is your typical project timeline?
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Project timelines vary based on complexity and scope. Simple websites typically take 2-4 weeks, 
+                                while complex web applications can take 2-6 months. I provide detailed timelines during 
+                                the initial consultation phase.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                                Do you offer ongoing support and maintenance?
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, I offer ongoing support and maintenance packages for all projects. 
+                                This includes bug fixes, security updates, feature enhancements, and technical support. 
+                                Support packages can be customized based on your specific needs.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                                Can you help with existing projects?
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Absolutely! I can help improve existing projects, add new features, fix bugs, 
+                                optimize performance, or provide code reviews. I'm experienced in working with 
+                                legacy codebases and can help modernize older applications.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-form .form-control,
+    .contact-form .form-select {
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .contact-form .form-control:focus,
+    .contact-form .form-select:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+    
+    .contact-form .form-label {
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+    
+    .contact-info .card {
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    .contact-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        color: white;
+    }
+    
+    .contact-details a {
+        color: var(--text-color);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .contact-details a:hover {
+        color: var(--secondary-color);
+    }
+    
+    .social-link {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        background: var(--secondary-color);
+        color: white;
+        border-radius: 50%;
+        margin: 0 0.5rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 1.2rem;
+    }
+    
+    .social-link:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    .availability-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f8f9fa;
+    }
+    
+    .availability-item:last-child {
+        border-bottom: none;
+    }
+    
+    .service-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(231, 76, 60, 0.1));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .accordion-item {
+        border: none;
+        margin-bottom: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .accordion-button {
+        background: white;
+        border: none;
+        font-weight: 600;
+        color: var(--primary-color);
+        border-radius: 10px;
+    }
+    
+    .accordion-button:not(.collapsed) {
+        background: var(--light-bg);
+        color: var(--secondary-color);
+    }
+    
+    .accordion-button:focus {
+        box-shadow: none;
+        border-color: transparent;
+    }
+    
+    .accordion-body {
+        background: white;
+        border-radius: 0 0 10px 10px;
+    }
+    
+    .alert {
+        border-radius: 10px;
+        border: none;
+    }
+    
+    .alert-success {
+        background: linear-gradient(135deg, #d4edda, #c3e6cb);
+        color: #155724;
+    }
+    
+    .alert-danger {
+        background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+        color: #721c24;
+    }
+    
+    @media (max-width: 768px) {
+        .contact-info {
+            margin-top: 2rem;
+        }
+        
+        .social-link {
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            margin: 0 0.25rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formMessage = document.getElementById('formMessage');
+        
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading"></span> Sending...';
+            submitBtn.disabled = true;
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                message: formData.get('message')
+            };
+            
+            try {
+                const response = await fetch('{% url "portfolio:contact_submit" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    formMessage.innerHTML = `
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>${result.message}
+                        </div>
+                    `;
+                    contactForm.reset();
+                } else {
+                    formMessage.innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle me-2"></i>${result.message}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                formMessage.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>There was an error sending your message. Please try again.
+                    </div>
+                `;
+            }
+            
+            // Reset button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            
+            // Show message
+            formMessage.style.display = 'block';
+            formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, 5000);
+        });
+        
+        // Form validation feedback
+        const inputs = contactForm.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                }
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.classList.contains('is-invalid') && this.value.trim()) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+
