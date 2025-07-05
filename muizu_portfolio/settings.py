@@ -75,13 +75,16 @@ WSGI_APPLICATION = 'muizu_portfolio.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),         # Your PostgreSQL database name
-        'USER': os.environ.get('DB_USER'),         # Your PostgreSQL admin username
-        'PASSWORD': os.environ.get('DB_PASSWORD'), # Your database password
-        'HOST': os.environ.get('DB_HOST'),         # e.g., muizu.postgres.database.azure.com
-        'PORT': '5432',  
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
