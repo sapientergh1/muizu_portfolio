@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
     "https://muizu-portfolio.azurewebsites.net",
+    "https://muizuiddrisu.me",
 ]
 
 
