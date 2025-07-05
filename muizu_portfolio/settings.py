@@ -26,6 +26,9 @@ SECRET_KEY = 'django-insecure-8lvvni584&j^lsnn3mhjx@1gg*yul(1r&nodlrd!ree#05bbn6
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    "https://muizu-portfolio-eff9afd6gtcxfxbu.westeurope-01.azurewebsites.net",
+]
 
 
 # Application definition
