@@ -27,7 +27,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    "https://muizu-portfolio-eff9afd6gtcxfxbu.westeurope-01.azurewebsites.net",
+    "https://muizu-portfolio.azurewebsites.net",
 ]
 
 
@@ -129,18 +129,25 @@ USE_TZ = True
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
+
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 
+AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME')  
+AZURE_ACCOUNT_KEY = os.environ.get('AZURE_ACCOUNT_KEY') 
+AZURE_CONTAINER = 'media'
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+
+MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_CONTAINER}/'
 
 # Media files
-MEDIA_ROOT = BASE_DIR / 'staticfiles/media'
 MEDIA_URL = '/media/'
-
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
