@@ -70,8 +70,6 @@ class Project(models.Model):
     
     
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True)
-
     description = models.TextField()
     type = models.CharField(max_length=20, choices=PROJECT_TYPES, default='other')
     image = models.ImageField(upload_to='projects/', blank=True)
@@ -83,10 +81,9 @@ class Project(models.Model):
     
     class Meta:
         ordering = ['-created_at']
-    
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
+        
+    def __str__(self):
+        return self.title
 
 class Education(models.Model):
     degree = models.CharField(max_length=200)

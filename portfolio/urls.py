@@ -4,19 +4,13 @@ from django.contrib.sitemaps.views import sitemap
 from portfolio.sitemaps import (
     StaticViewSitemap,
     ProjectSitemap,
-    EducationSitemap,
     ExperienceSitemap,
-    SkillSitemap,
-    ProfileSitemap,
 )
 
 sitemaps = {
     'static': StaticViewSitemap,
     'projects': ProjectSitemap,
-    'education': EducationSitemap,
     'experience': ExperienceSitemap,
-    'skills': SkillSitemap,
-    'profiles': ProfileSitemap,
 }
 
 app_name = 'portfolio'
