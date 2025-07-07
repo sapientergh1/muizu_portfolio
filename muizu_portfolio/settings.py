@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8lvvni584&j^lsnn3mhjx@1gg*yul(1r&nodlrd!ree#05bbn6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'portfolio',
     'storages',  # Azure Storage backend
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [

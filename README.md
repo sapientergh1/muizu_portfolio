@@ -4,7 +4,7 @@
 A comprehensive multi-page portfolio website showcasing Muizu Iddrisu's roles as a teacher, software engineer, and student. The website is built with Django backend and modern frontend technologies including HTML, CSS, and JavaScript.
 
 ## Live Website
-**Public URL:** https://8080-it6p0yzymwybzhl6tle3w-824dab97.manusvm.computer
+**Public URL:** https://muizuiddrisu.me
 
 ## Features
 
